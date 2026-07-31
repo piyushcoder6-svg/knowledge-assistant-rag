@@ -9,5 +9,5 @@ pypdf
 python-dotenv
 langchain_chroma
 langchain_groq
-sentence-transformers
 langchain_huggingface
+huggingface_hub
