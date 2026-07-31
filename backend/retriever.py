@@ -1,13 +1,14 @@
 from langchain_groq import ChatGroq
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEndpointEmbeddings
 from langchain_chroma import Chroma
 from dotenv import load_dotenv
 
 load_dotenv()
 
 def get_answer(question: str) -> str:
-    embeddings = HuggingFaceEmbeddings(
-        model_name="all-MiniLM-L6-v2"
+    embeddings = HuggingFaceEndpointEmbeddings(
+    model="sentence-transformers/all-MiniLM-L6-v2",
+    task="feature-extraction",
     )
     vectorstore = Chroma(
         persist_directory="chroma_db",
