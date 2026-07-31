@@ -30,12 +30,21 @@ def root():
 def serve_frontend():
     return FileResponse("../frontend/index.html")
 
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DOCS_DIR = BASE_DIR / "docs"
+DOCS_DIR.mkdir(parents=True, exist_ok=True)
+
 @app.post("/upload")
 async def upload_pdf(file: UploadFile = File(...)):
-    file_path = f"../docs/{file.filename}"
+    file_path = DOCS_DIR / file.filename
+
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-    ingest_pdf(file_path)
+
+    ingest_pdf(str(file_path))
+
     return {"message": f"✅ {file.filename} ingested successfully"}
 
 @app.post("/ask")
